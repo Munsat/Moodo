@@ -1,7 +1,7 @@
 import { Badge, Flex, HStack, Text } from "@chakra-ui/react"
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { useAuth } from "../contexts/AuthProvider"
+import { useAuth } from "../../contexts/AuthProvider"
 import { motion } from "framer-motion"
 
 const QuotesDisplay = () => {

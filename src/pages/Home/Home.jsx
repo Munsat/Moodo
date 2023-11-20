@@ -1,7 +1,7 @@
 import { Container, Heading, Text, VStack } from "@chakra-ui/react"
 import homeStyles from "./Home.module.css"
 import MoodSlider from "../../components/Mood/MoodSlider"
-import MoodTips from "../../components/MoodTips"
+import MoodTips from "../../components/MoodTips/MoodTips"
 import Breathe from "../../components/Breath/Breathe"
 
 const Home = () => {

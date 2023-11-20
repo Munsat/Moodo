@@ -14,7 +14,7 @@ import { useState } from "react"
 import { format } from "date-fns"
 import { AiFillDelete } from "react-icons/ai"
 import { FiEdit3 } from "react-icons/fi"
-import DeletePopUp from "../DeletePopUp"
+import DeletePopUp from "../DeletePopUp/DeletePopUp"
 
 const Entry = ({ each, setGroupedData }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()

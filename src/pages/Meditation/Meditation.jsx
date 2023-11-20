@@ -18,7 +18,7 @@ import {
   Spinner,
 } from "@chakra-ui/react"
 import { BsMusicNoteBeamed } from "react-icons/bs"
-import AudioPlayer from "../../components/AudioPlayer"
+import AudioPlayer from "../../components/AudioPlayer/AudioPlayer"
 
 const Meditation = () => {
   const [allAudio, setAllAudio] = useState([])

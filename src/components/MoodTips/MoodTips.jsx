@@ -14,7 +14,10 @@ import {
 } from "@chakra-ui/react"
 import { useState } from "react"
 import axios from "axios"
-import { addTipsInfoToFirestore, queryForTipsInfo } from "../FirestoreQueries"
+import {
+  addTipsInfoToFirestore,
+  queryForTipsInfo,
+} from "../../FirestoreQueries"
 
 const MoodTips = () => {
   const [response, setResponse] = useState("")

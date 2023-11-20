@@ -13,7 +13,7 @@ import { formatDistance } from "date-fns"
 import { AiFillDelete } from "react-icons/ai"
 import { deleteComment } from "../../FirestoreQueries"
 import { useAuth } from "../../contexts/AuthProvider"
-import DeletePopUp from "../DeletePopUp"
+import DeletePopUp from "../DeletePopUp/DeletePopUp"
 
 const Comment = ({ comment, setComments, comments }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()

@@ -15,7 +15,7 @@ import { format } from "date-fns"
 import { useState } from "react"
 import { AiFillDelete } from "react-icons/ai"
 import { deleteMood } from "../../FirestoreQueries"
-import DeletePopUp from "../DeletePopUp"
+import DeletePopUp from "../DeletePopUp/DeletePopUp"
 
 const MoodDisplays = ({ moodData, setMoodData, chartData, setChartData }) => {
   const toast = useToast()

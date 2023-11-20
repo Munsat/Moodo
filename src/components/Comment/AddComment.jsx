@@ -1,7 +1,7 @@
 import { Heading, VStack, useToast } from "@chakra-ui/react"
 import { AddCommentToFirestore } from "../../FirestoreQueries"
 import { useAuth } from "../../contexts/AuthProvider"
-import AddUserInput from "../AddUserInput"
+import AddUserInput from "../AddUserInput/AddUserInput"
 
 //Adds a comment to a post
 const AddComment = ({ post, comments, setComments }) => {

@@ -2,7 +2,7 @@ import { useToast } from "@chakra-ui/react"
 import { addJournalEntry } from "../../FirestoreQueries"
 import { useAuth } from "../../contexts/AuthProvider"
 import { format } from "date-fns"
-import AddUserInput from "../AddUserInput"
+import AddUserInput from "../AddUserInput/AddUserInput"
 
 //Adds an entry to journal
 const AddEntry = ({ groupedData, setGroupedData }) => {

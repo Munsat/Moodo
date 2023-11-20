@@ -16,7 +16,7 @@ import { formatDistance } from "date-fns"
 import { useState } from "react"
 import Comment from "../Comment/Comment"
 import AddComment from "../Comment/AddComment"
-import DeletePopUp from "../DeletePopUp"
+import DeletePopUp from "../DeletePopUp/DeletePopUp"
 
 const PostDetails = ({
   finalRef,
