@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState } from "react"
 import {
   FormControl,
   FormLabel,
@@ -9,38 +8,38 @@ import {
   Container,
   Text,
   Link,
-} from "@chakra-ui/react";
+} from "@chakra-ui/react"
 
-import { Link as ReactLink } from "react-router-dom";
-import { useAuth } from "../contexts/AuthProvider";
+import { Link as ReactLink } from "react-router-dom"
+import { useAuth } from "../../contexts/AuthProvider"
 
 const RegisterForm = () => {
-  const { register } = useAuth();
-  const [error, setError] = useState(null);
+  const { register } = useAuth()
+  const [error, setError] = useState(null)
 
   const handleRegisterSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const body = Object.fromEntries(formData);
+    event.preventDefault()
+    const formData = new FormData(event.target)
+    const body = Object.fromEntries(formData)
     try {
       if (body["password"] === body["password1"]) {
-        await register(body);
+        await register(body)
       } else {
-        setError("Sorry passwords don't match");
+        setError("Sorry passwords don't match")
       }
     } catch (err) {
       // Show error message
-      const errorCode = err.code;
-      const errorMessage = err.message;
+      const errorCode = err.code
+      const errorMessage = err.message
       if (errorCode === "auth/weak-password") {
-        setError("The password has to be atleast 6 characters");
+        setError("The password has to be atleast 6 characters")
       } else if (errorCode === "auth/email-already-in-use") {
-        setError("This email already exists. Try logging in.");
+        setError("This email already exists. Try logging in.")
       } else {
-        setError(errorMessage);
+        setError(errorMessage)
       }
     }
-  };
+  }
 
   return (
     <Container
@@ -61,7 +60,7 @@ const RegisterForm = () => {
             type="text"
             name="name"
             placeholder="Abby Cole"
-            borderColor='black'
+            borderColor="black"
           />
         </FormControl>
         <FormControl isRequired>
@@ -93,20 +92,24 @@ const RegisterForm = () => {
           />
           <FormHelperText>Your passwords must match.</FormHelperText>
         </FormControl>
-        <Button type="submit" colorScheme="yellow" bgColor='themeColor.yellow' mt={4}>
+        <Button
+          type="submit"
+          colorScheme="yellow"
+          bgColor="themeColor.yellow"
+          mt={4}
+        >
           Register
         </Button>
       </form>
       <Text mt={2}>
         Already have an account?
-        <br/>
-        <Link color='orange.500' as={ReactLink} to="/login" >
+        <br />
+        <Link color="orange.500" as={ReactLink} to="/login">
           Sign in
         </Link>
       </Text>
-      
     </Container>
-  );
-};
+  )
+}
 
-export default RegisterForm;
+export default RegisterForm

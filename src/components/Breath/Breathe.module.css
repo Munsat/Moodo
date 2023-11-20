@@ -1,8 +1,8 @@
-.circle{
-    background-color: #CEE5D0;
-    height:12rem;
-    width:12rem;
-    position:absolute;
-    border-radius: 50%;
-    opacity: .2;
+.circle {
+  background-color: #cee5d0;
+  height: 12rem;
+  width: 12rem;
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.2;
 }

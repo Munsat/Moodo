@@ -1,4 +1,4 @@
-import { Container, Image } from "@chakra-ui/react";
+import { Container, Image } from "@chakra-ui/react"
 
 const NotFound = () => {
   return (
@@ -8,7 +8,7 @@ const NotFound = () => {
         alt="page not found error"
       />
     </Container>
-  );
-};
+  )
+}
 
-export default NotFound;
+export default NotFound

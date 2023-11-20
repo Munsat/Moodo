@@ -1,23 +1,19 @@
-
-
-.navBar{
-    background-color: #FFC93C;
-    min-height: 3.3rem;
+.navBar {
+  background-color: #ffc93c;
+  min-height: 3.3rem;
 }
 
-.navItem{
-    min-height: 2.8rem;
-    
+.navItem {
+  min-height: 2.8rem;
 }
-.navItem:hover{
-border-bottom: 2px solid #FF7878;
-font-weight: 800;
-transition: all 250ms ease-in-out
-
+.navItem:hover {
+  border-bottom: 2px solid #ff7878;
+  font-weight: 800;
+  transition: all 250ms ease-in-out;
 }
 
-.navBtn:focus{
-    box-shadow: none !important;
-    border-color: #FF7878;
-    color: #FF7878;
+.navBtn:focus {
+  box-shadow: none !important;
+  border-color: #ff7878;
+  color: #ff7878;
 }

@@ -11,12 +11,12 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
-} from "@chakra-ui/react";
-import { formatDistance } from "date-fns";
-import { useState } from "react";
-import Comment from "../Comment/Comment";
-import AddComment from "../Comment/AddComment";
-import DeletePopUp from "../DeletePopUp";
+} from "@chakra-ui/react"
+import { formatDistance } from "date-fns"
+import { useState } from "react"
+import Comment from "../Comment/Comment"
+import AddComment from "../Comment/AddComment"
+import DeletePopUp from "../DeletePopUp"
 
 const PostDetails = ({
   finalRef,
@@ -89,7 +89,7 @@ const PostDetails = ({
               <Button
                 colorScheme="red"
                 variant="outline"
-                onClick={()=> setIsDeletePopupOpen(true)}
+                onClick={() => setIsDeletePopupOpen(true)}
               >
                 Delete
               </Button>
@@ -98,13 +98,13 @@ const PostDetails = ({
           <DeletePopUp
             deleteId={post.id}
             isOpen={isDeletePopupOpen}
-            onClose={()=>setIsDeletePopupOpen(false)}
+            onClose={() => setIsDeletePopupOpen(false)}
             handleDelete={handlePostDelete}
           />
         </ModalFooter>
       </ModalContent>
     </Modal>
-  );
-};
+  )
+}
 
-export default PostDetails;
+export default PostDetails

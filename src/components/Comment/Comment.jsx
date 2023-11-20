@@ -8,21 +8,21 @@ import {
   VStack,
   useDisclosure,
   useToast,
-} from "@chakra-ui/react";
-import { formatDistance } from "date-fns";
-import { AiFillDelete } from "react-icons/ai";
-import { deleteComment } from "../../FirestoreQueries";
-import { useAuth } from "../../contexts/AuthProvider";
-import DeletePopUp from "../DeletePopUp";
+} from "@chakra-ui/react"
+import { formatDistance } from "date-fns"
+import { AiFillDelete } from "react-icons/ai"
+import { deleteComment } from "../../FirestoreQueries"
+import { useAuth } from "../../contexts/AuthProvider"
+import DeletePopUp from "../DeletePopUp"
 
 const Comment = ({ comment, setComments, comments }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user } = useAuth();
-  const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { user } = useAuth()
+  const toast = useToast()
 
   const handleCommentDelete = async (commentId) => {
-    await deleteComment(commentId);
-    setComments(comments.filter((comment) => comment.id !== commentId));
+    await deleteComment(commentId)
+    setComments(comments.filter((comment) => comment.id !== commentId))
     toast({
       title: `Comment Deleted!`,
       description: ` The comment has been deleted from the post.`,
@@ -30,9 +30,9 @@ const Comment = ({ comment, setComments, comments }) => {
       position: "bottom-right",
       duration: 6000,
       isClosable: true,
-    });
-    onClose();
-  };
+    })
+    onClose()
+  }
 
   return (
     <VStack
@@ -57,9 +57,8 @@ const Comment = ({ comment, setComments, comments }) => {
           bgColor="themeColor.darkPastel"
           p=".4rem"
           borderRadius=".3rem"
-          mt={{base: ".5rem",sm:'0rem'}}
-          ml={{base: "0rem", sm:'.7rem'}}
-
+          mt={{ base: ".5rem", sm: "0rem" }}
+          ml={{ base: "0rem", sm: ".7rem" }}
         >
           {formatDistance(Date.now(), comment.created_on)} ago
         </Badge>
@@ -89,6 +88,6 @@ const Comment = ({ comment, setComments, comments }) => {
         deleteId={comment.id}
       />
     </VStack>
-  );
-};
-export default Comment;
+  )
+}
+export default Comment

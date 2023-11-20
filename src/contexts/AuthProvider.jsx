@@ -6,99 +6,109 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   updateProfile,
-} from "firebase/auth";
+} from "firebase/auth"
 
-import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { createContext, useContext, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
-import { auth } from "../firebaseConfig";
-import { addUserInfoToFirestore } from "../FirestoreQueries";
+import { auth } from "../firebaseConfig"
+import { addUserInfoToFirestore } from "../FirestoreQueries"
 //moodo.customerservice@gmail.com
 
-const provider = new GoogleAuthProvider();
-const AuthContext = createContext({});
+// Creating a Google Auth provider instance
+const provider = new GoogleAuthProvider()
 
+// Creating an AuthContext to manage user authentication state
+const AuthContext = createContext({})
 
+// Custom hook to use the AuthContext in components
 export const useAuth = () => {
-  return useContext(AuthContext);
-};
+  return useContext(AuthContext)
+}
 
+// AuthProvider component to provide authentication functionality
 export const AuthProvider = ({ children }) => {
-  const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const [isLoadingUser, setIsLoadingUser] = useState(true);
+  const navigate = useNavigate()
+  const [user, setUser] = useState(null)
+  const [isLoadingUser, setIsLoadingUser] = useState(true)
 
-
+  // Effect hook to check user authentication status on component mount
   useEffect(() => {
     const loginCheck = async () => {
       try {
         onAuthStateChanged(auth, (user) => {
           if (user) {
-            setUser(user);
-            navigate("/");
-            setIsLoadingUser(false);
-
+            // User is authenticated, set user and navigate to the home page
+            setUser(user)
+            navigate("/")
+            setIsLoadingUser(false)
           } else {
-            console.log("user not here");
-            setIsLoadingUser(false);
+            // No user found, set loading to false
+            setIsLoadingUser(false)
           }
-        });
+        })
       } catch (err) {
-        setIsLoadingUser(false);
+        // Handle errors during authentication status check
+        setIsLoadingUser(false)
       }
-    };
-    setIsLoadingUser(true);
-    loginCheck();
-  }, []);
+    }
+    setIsLoadingUser(true)
+    loginCheck()
+  }, [])
 
+  // Function to handle user registration
   const register = async (body) => {
-    setIsLoadingUser(true);
+    setIsLoadingUser(true)
     const userCred = await createUserWithEmailAndPassword(
       auth,
       body["email"],
       body["password"]
-    );
+    )
     await addUserInfoToFirestore(userCred.user.uid, {
       email: body["email"],
       name: body["name"],
-    });
+    })
     await updateProfile(auth.currentUser, {
       displayName: body["name"],
-    });
-    setUser(userCred.user);
-    navigate("/");
-    setIsLoadingUser(false);
-  };
+    })
+    // Set user, navigate to the home page, and set loading to false
+    setUser(userCred.user)
+    navigate("/")
+    setIsLoadingUser(false)
+  }
 
+  // Function to handle user login
   const login = async (email, password) => {
-    setIsLoadingUser(true);
-    const userCred = await signInWithEmailAndPassword(auth, email, password);
-    setUser(userCred.user);
-    navigate("/");
-    setIsLoadingUser(false);
-  };
+    setIsLoadingUser(true)
+    const userCred = await signInWithEmailAndPassword(auth, email, password)
+    setUser(userCred.user)
+    navigate("/")
+    setIsLoadingUser(false)
+  }
 
+  // Function to handle user login with Google
   const loginWithGoogle = async () => {
-    setIsLoadingUser(true);
+    setIsLoadingUser(true)
     try {
-      const result = await signInWithPopup(auth, provider);
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      const user = result.user;
-      setUser(user);
-      navigate("/");
-      console.log(token);
-      setIsLoadingUser(false);
+      const result = await signInWithPopup(auth, provider)
+      const user = result.user
+      // Set user, navigate to the home page and set loading to false
+      setUser(user)
+      navigate("/")
+      setIsLoadingUser(false)
     } catch {
-      setIsLoadingUser(false);
+      // Handle errors during Google login
+      setIsLoadingUser(false)
     }
-  };
+  }
 
+  // Function to handle user logout
   const logout = async () => {
-    await signOut(auth);
-    setUser(null);
-  };
+    await signOut(auth)
+    setUser(null)
+  }
 
+  // Providing the AuthContext to the entire application
   return (
     <AuthContext.Provider
       value={{
@@ -113,5 +123,5 @@ export const AuthProvider = ({ children }) => {
     >
       {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}

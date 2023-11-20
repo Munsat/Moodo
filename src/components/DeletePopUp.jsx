@@ -6,11 +6,11 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Button,
-} from "@chakra-ui/react";
-import { useRef } from "react";
+} from "@chakra-ui/react"
+import { useRef } from "react"
 
 const DeletePopUp = ({ deleteId, isOpen, onClose, handleDelete }) => {
-  const cancelRef = useRef(null);
+  const cancelRef = useRef(null)
 
   return (
     <AlertDialog
@@ -25,7 +25,7 @@ const DeletePopUp = ({ deleteId, isOpen, onClose, handleDelete }) => {
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            Are you sure? You can't undo this action afterwards.
+            Are you sure? You can&apos;t undo this action afterwards.
           </AlertDialogBody>
 
           <AlertDialogFooter>
@@ -49,7 +49,7 @@ const DeletePopUp = ({ deleteId, isOpen, onClose, handleDelete }) => {
         </AlertDialogContent>
       </AlertDialogOverlay>
     </AlertDialog>
-  );
-};
+  )
+}
 
-export default DeletePopUp;
+export default DeletePopUp

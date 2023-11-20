@@ -12,50 +12,50 @@ import {
   Text,
   Tooltip,
   useToast,
-} from "@chakra-ui/react";
-import { AiFillHeart } from "react-icons/ai";
-import { FaComment } from "react-icons/fa";
+} from "@chakra-ui/react"
+import { AiFillHeart } from "react-icons/ai"
+import { FaComment } from "react-icons/fa"
 
-import { format, formatDistance } from "date-fns";
-import { useAuth } from "../../contexts/AuthProvider";
+import { format, formatDistance } from "date-fns"
+import { useAuth } from "../../contexts/AuthProvider"
 import {
   deletePost,
   queryAllComments,
   updatePostLike,
-} from "../../FirestoreQueries";
-import PostDetails from "./PostDetails";
-import { useEffect, useRef, useState } from "react";
+} from "../../FirestoreQueries"
+import PostDetails from "./PostDetails"
+import { useEffect, useRef, useState } from "react"
 
 const Post = ({ post, setPosts, posts }) => {
-  const finalRef = useRef(null);
-  const toast = useToast();
+  const finalRef = useRef(null)
+  const toast = useToast()
 
-  const [isPostDetailsOpen, setIsPostDetailsOpen] = useState(false);
-  const { user } = useAuth();
-  const [comments, setComments] = useState([]);
+  const [isPostDetailsOpen, setIsPostDetailsOpen] = useState(false)
+  const { user } = useAuth()
+  const [comments, setComments] = useState([])
 
   useEffect(() => {
     const getQuery = async () => {
-      const queryArr = [];
+      const queryArr = []
 
       try {
-        const queryRes = await queryAllComments(post.id);
+        const queryRes = await queryAllComments(post.id)
         queryRes.forEach((snap) => {
-          const data = { id: snap.id, ...snap.data() };
-          queryArr.push(data);
-        });
-        setComments(queryArr);
+          const data = { id: snap.id, ...snap.data() }
+          queryArr.push(data)
+        })
+        setComments(queryArr)
       } catch (err) {
-        console.error(err);
+        console.error(err)
       }
-    };
-    getQuery();
-  }, []);
+    }
+    getQuery()
+  }, [])
 
   //Updates Like/Unlike on a post
   const handleLike = async (postToLike) => {
     try {
-      await updatePostLike(postToLike, user.uid);
+      await updatePostLike(postToLike, user.uid)
       if (!postToLike.likes.includes(user.uid)) {
         setPosts((prevPosts) =>
           prevPosts.map((prevPost) =>
@@ -63,7 +63,7 @@ const Post = ({ post, setPosts, posts }) => {
               ? { ...prevPost, likes: [...prevPost.likes, user.uid] }
               : prevPost
           )
-        );
+        )
       } else {
         setPosts((prevPosts) =>
           prevPosts.map((prevPost) =>
@@ -74,18 +74,18 @@ const Post = ({ post, setPosts, posts }) => {
                 }
               : prevPost
           )
-        );
+        )
       }
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-  };
+  }
 
   //Deletes a post
   const handlePostDelete = async (postId) => {
     try {
-      await deletePost(postId);
-      setPosts(posts.filter((post) => post.id !== postId));
+      await deletePost(postId)
+      setPosts(posts.filter((post) => post.id !== postId))
       toast({
         title: "Post Deleted!",
         description: "Your post has been deleted from the discussion board.",
@@ -93,11 +93,11 @@ const Post = ({ post, setPosts, posts }) => {
         position: "bottom-right",
         duration: 9000,
         isClosable: true,
-      });
+      })
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-  };
+  }
 
   return (
     <Card
@@ -109,7 +109,7 @@ const Post = ({ post, setPosts, posts }) => {
       width={{ base: "100%", lg: "40%", xl: "30%" }}
       minW="20rem"
       minH="18rem"
-    //   maxW='30rem'
+      //   maxW='30rem'
       textAlign="start"
       _hover={{ cursor: "pointer", backgroundColor: "themeColor.darkPastel" }}
       alignSelf="start"
@@ -195,7 +195,7 @@ const Post = ({ post, setPosts, posts }) => {
         </ButtonGroup>
       </CardFooter>
     </Card>
-  );
-};
+  )
+}
 
-export default Post;
+export default Post

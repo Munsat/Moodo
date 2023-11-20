@@ -1,14 +1,13 @@
-import { useToast } from "@chakra-ui/react";
-import { createPost } from "../../FirestoreQueries";
-import { useAuth } from "../../contexts/AuthProvider";
-import AddUserInput from "../AddUserInput";
-
+import { useToast } from "@chakra-ui/react"
+import { createPost } from "../../FirestoreQueries"
+import { useAuth } from "../../contexts/AuthProvider"
+import AddUserInput from "../AddUserInput"
 
 //Adds a post to the discussion board
 const AddPost = ({ posts, setPosts }) => {
-  const toast = useToast();
-  const { user } = useAuth();
-  const placeholder = "What's on your mind?";
+  const toast = useToast()
+  const { user } = useAuth()
+  const placeholder = "What's on your mind?"
 
   const onSubmit = async (input) => {
     const body = {
@@ -18,14 +17,14 @@ const AddPost = ({ posts, setPosts }) => {
       created_on: Date.now(),
       updated_on: Date.now(),
       likes: [],
-    };
+    }
     try {
-      const postRes = await createPost(body);
+      const postRes = await createPost(body)
       const data = {
         id: postRes.id,
         ...body,
-      };
-      setPosts([data, ...posts]);
+      }
+      setPosts([data, ...posts])
 
       toast({
         title: "You just made a new post!",
@@ -34,11 +33,11 @@ const AddPost = ({ posts, setPosts }) => {
         position: "bottom-right",
         duration: 9000,
         isClosable: true,
-      });
+      })
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-  };
+  }
 
   return (
     <AddUserInput
@@ -47,7 +46,7 @@ const AddPost = ({ posts, setPosts }) => {
       charLength={400}
       onSubmit={onSubmit}
     />
-  );
-};
+  )
+}
 
-export default AddPost;
+export default AddPost

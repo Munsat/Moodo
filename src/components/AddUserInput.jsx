@@ -5,25 +5,30 @@ import {
   Button,
   Text,
   VStack,
-} from "@chakra-ui/react";
-import { useState } from "react";
+} from "@chakra-ui/react"
+import { useState } from "react"
 
 const AddUserInput = ({ onSubmit, placeholder, charLength, widthLength }) => {
-  const [input, setInput] = useState("");
-  const [error, setError] = useState(null);
+  const [input, setInput] = useState("")
+  const [error, setError] = useState(null)
 
   const handleClick = async () => {
     if (input.length > 0) {
-      setError("");
-      await onSubmit(input);
-      setInput("");
+      setError("")
+      await onSubmit(input)
+      setInput("")
     } else {
-      setError("Oh no! You can't post a blank entry.");
+      setError("Oh no! You can't post a blank entry.")
     }
-  };
+  }
 
   return (
-    <VStack mb={7} alignItems="end" w={{ base: "100%", lg: `${widthLength}` }} m='auto'>
+    <VStack
+      mb={7}
+      alignItems="end"
+      w={{ base: "100%", lg: `${widthLength}` }}
+      m="auto"
+    >
       <FormControl>
         <Textarea
           borderColor="gray.400"
@@ -41,7 +46,11 @@ const AddUserInput = ({ onSubmit, placeholder, charLength, widthLength }) => {
         <FormHelperText textAlign="end">
           {charLength - input.length} characters left.
         </FormHelperText>
-        {input.length === 0 && error && <Text aria-label="error-message" color="red">{error}</Text>}
+        {input.length === 0 && error && (
+          <Text aria-label="error-message" color="red">
+            {error}
+          </Text>
+        )}
       </FormControl>
       <Button
         px={7}
@@ -53,7 +62,7 @@ const AddUserInput = ({ onSubmit, placeholder, charLength, widthLength }) => {
         Submit
       </Button>
     </VStack>
-  );
-};
+  )
+}
 
-export default AddUserInput;
+export default AddUserInput

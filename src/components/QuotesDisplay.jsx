@@ -1,14 +1,14 @@
-import { Badge, Flex, HStack, Text } from "@chakra-ui/react";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useAuth } from "../contexts/AuthProvider";
-import { motion } from "framer-motion";
+import { Badge, Flex, HStack, Text } from "@chakra-ui/react"
+import axios from "axios"
+import { useEffect, useState } from "react"
+import { useAuth } from "../contexts/AuthProvider"
+import { motion } from "framer-motion"
 
 const QuotesDisplay = () => {
-  const { user } = useAuth();
-  const [quoteData, setQuoteData] = useState({});
-  const api_url = `https://api.api-ninjas.com/v1/quotes?category=inspirational`;
-  const apiKey = import.meta.env.VITE_REACT_APP_APININJAS_API_KEY;
+  const { user } = useAuth()
+  const [quoteData, setQuoteData] = useState({})
+  const api_url = `https://api.api-ninjas.com/v1/quotes?category=inspirational`
+  const apiKey = import.meta.env.VITE_REACT_APP_APININJAS_API_KEY
   useEffect(() => {
     const getQuotes = async (url) => {
       try {
@@ -16,35 +16,35 @@ const QuotesDisplay = () => {
           headers: {
             "X-Api-Key": apiKey,
           },
-        });
+        })
         if (response.status === 200 && response.data[0].quote.length < 250) {
           setQuoteData({
             quote: response.data[0].quote,
             author: response.data[0].author,
-          });
+          })
         }
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
-    };
+    }
     const interval = setInterval(() => {
-      getQuotes(api_url);
-    }, 30000);
+      getQuotes(api_url)
+    }, 30000)
 
     if (user) {
       setQuoteData((prevData) => ({
         ...prevData,
         quote: `Hi ${user.displayName}! Welcome to Moodo. Hope you are having a lovely day.`,
         author: "Moodo",
-      }));
+      }))
     } else {
-      setQuoteData({});
+      setQuoteData({})
     }
 
     return () => {
-      clearInterval(interval);
-    };
-  }, [user]);
+      clearInterval(interval)
+    }
+  }, [user])
 
   return (
     <Flex
@@ -76,7 +76,7 @@ const QuotesDisplay = () => {
         </motion.div>
       )}
     </Flex>
-  );
-};
+  )
+}
 
-export default QuotesDisplay;
+export default QuotesDisplay

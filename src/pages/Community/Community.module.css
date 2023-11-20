@@ -1,0 +1,11 @@
+.waveContainer::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 340px;
+  background: url(../assets/wave.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+}

@@ -1,7 +1,7 @@
-import { getDownloadURL, ref } from "firebase/storage";
-import { useEffect, useState } from "react";
-import { queryForAudioInfo } from "../FirestoreQueries";
-import { storage } from "../firebaseConfig";
+import { getDownloadURL, ref } from "firebase/storage"
+import { useEffect, useState } from "react"
+import { queryForAudioInfo } from "../../FirestoreQueries"
+import { storage } from "../../firebaseConfig"
 
 import {
   Card,
@@ -16,56 +16,56 @@ import {
   Flex,
   Container,
   Spinner,
-} from "@chakra-ui/react";
-import { BsMusicNoteBeamed } from "react-icons/bs";
-import AudioPlayer from "../components/AudioPlayer";
+} from "@chakra-ui/react"
+import { BsMusicNoteBeamed } from "react-icons/bs"
+import AudioPlayer from "../../components/AudioPlayer"
 
 const Meditation = () => {
-  const [allAudio, setAllAudio] = useState([]);
-  const [audioIndex, setAudioIndex] = useState(null);
-  const [activeAudio, setActiveAudio] = useState(null);
-  const [audioUrl, setAudioUrl] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [allAudio, setAllAudio] = useState([])
+  const [audioIndex, setAudioIndex] = useState(null)
+  const [activeAudio, setActiveAudio] = useState(null)
+  const [audioUrl, setAudioUrl] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    const audioArr = [];
+    const audioArr = []
     const getAllAudio = async () => {
       try {
-        const response = await queryForAudioInfo();
+        const response = await queryForAudioInfo()
         response.forEach((snap) => {
-          audioArr.push(snap.data());
-        });
-        setAllAudio(audioArr);
+          audioArr.push(snap.data())
+        })
+        setAllAudio(audioArr)
       } catch (err) {
-        console.error(err);
+        console.error(err)
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
-    };
-    setIsLoading(true);
-    getAllAudio();
-  }, []);
+    }
+    setIsLoading(true)
+    getAllAudio()
+  }, [])
 
   const handleSong = async (audio) => {
-    const storageref = ref(storage, audio.url);
+    const storageref = ref(storage, audio.url)
     try {
-      const url = await getDownloadURL(storageref);
-      setAudioUrl(url);
+      const url = await getDownloadURL(storageref)
+      setAudioUrl(url)
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-  };
+  }
 
   const handleClick = async (audio, index) => {
-    await handleSong(audio);
-    setActiveAudio(audio);
-    setAudioIndex(index);
-  };
+    await handleSong(audio)
+    setActiveAudio(audio)
+    setAudioIndex(index)
+  }
 
   const handleSongChange = (audio, index) => {
-    setActiveAudio(audio);
-    setAudioIndex(index);
-  };
+    setActiveAudio(audio)
+    setAudioIndex(index)
+  }
   if (isLoading)
     return (
       <Container centerContent>
@@ -80,7 +80,7 @@ const Meditation = () => {
           ...LOADING
         </Heading>
       </Container>
-    );
+    )
   return (
     <Flex
       mt="5rem"
@@ -88,7 +88,7 @@ const Meditation = () => {
       justifyContent="space-around"
       mx="auto"
       gap="3rem"
-      maxW='100rem'
+      maxW="100rem"
     >
       <VStack>
         {activeAudio ? (
@@ -100,11 +100,11 @@ const Meditation = () => {
             audioUrl={audioUrl}
           />
         ) : (
-          <VStack mx="5rem" my={4} >
+          <VStack mx="5rem" my={4}>
             <Flex
               aspectRatio={1.5 / 1}
-              minW='350px'
-              width={{base:'100%', lg:'600px'}}
+              minW="350px"
+              width={{ base: "100%", lg: "600px" }}
               bg="blackAlpha.100"
               justifyContent="center"
               alignItems="center"
@@ -122,7 +122,7 @@ const Meditation = () => {
           </VStack>
         )}
       </VStack>
-      <VStack direction="column" gap=".6rem" w='100%'>
+      <VStack direction="column" gap=".6rem" w="100%">
         {allAudio.map((audio, index) => (
           <Card
             role="button"
@@ -132,9 +132,9 @@ const Meditation = () => {
             direction={{ base: "column", sm: "row" }}
             overflow="hidden"
             variant="filled"
-            width={{base:"100%" ,lg:"70%"}}
-            maxW='40rem'
-            minW='22rem'
+            width={{ base: "100%", lg: "70%" }}
+            maxW="40rem"
+            minW="22rem"
             onClick={() => handleClick(audio, index)}
             bgColor={
               activeAudio?.title === audio.title
@@ -171,7 +171,7 @@ const Meditation = () => {
         ))}
       </VStack>
     </Flex>
-  );
-};
+  )
+}
 
-export default Meditation;
+export default Meditation

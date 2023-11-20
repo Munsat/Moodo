@@ -1,7 +1,7 @@
-import { Card, CardBody, HStack, Heading, VStack } from "@chakra-ui/react";
+import { Card, CardBody, HStack, Heading, VStack } from "@chakra-ui/react"
 
-import Entry from './Entry';
-import { format } from "date-fns";
+import Entry from "./Entry"
+import { format } from "date-fns"
 
 const AllEntries = ({ groupedData, setGroupedData }) => {
   console.log(groupedData)
@@ -49,7 +49,7 @@ const AllEntries = ({ groupedData, setGroupedData }) => {
           </Card>
         ))}
     </VStack>
-  );
-};
+  )
+}
 
-export default AllEntries;
+export default AllEntries

@@ -10,24 +10,24 @@ import {
   VStack,
   useDisclosure,
   useToast,
-} from "@chakra-ui/react";
-import { format } from "date-fns";
-import { useState } from "react";
-import { AiFillDelete } from "react-icons/ai";
-import { deleteMood } from "../../FirestoreQueries";
-import DeletePopUp from "../DeletePopUp";
+} from "@chakra-ui/react"
+import { format } from "date-fns"
+import { useState } from "react"
+import { AiFillDelete } from "react-icons/ai"
+import { deleteMood } from "../../FirestoreQueries"
+import DeletePopUp from "../DeletePopUp"
 
 const MoodDisplays = ({ moodData, setMoodData, chartData, setChartData }) => {
-  const toast = useToast();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast()
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const [deleteId, setDeleteId] = useState(null)
 
   const handleMoodDelete = async (moodId) => {
     try {
-      await deleteMood(moodId);
-      setMoodData(moodData.filter((mood) => mood.id !== moodId));
-      setChartData(chartData.filter((each) => each[2] !== moodId));
-      
+      await deleteMood(moodId)
+      setMoodData(moodData.filter((mood) => mood.id !== moodId))
+      setChartData(chartData.filter((each) => each[2] !== moodId))
+
       toast({
         title: `Entry Deleted!`,
         description: ` The mood entry has been deleted from your log.`,
@@ -35,13 +35,13 @@ const MoodDisplays = ({ moodData, setMoodData, chartData, setChartData }) => {
         position: "bottom-right",
         duration: 6000,
         isClosable: true,
-      });
+      })
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
 
     onClose()
-  };
+  }
   return (
     <VStack
       divider={<StackDivider borderColor="gray.200" />}
@@ -62,15 +62,14 @@ const MoodDisplays = ({ moodData, setMoodData, chartData, setChartData }) => {
               variant="elevated"
               borderRadius={20}
               key={each.date}
-              py='.4rem'
+              py=".4rem"
               data-testid={`mood-entry-${index}`}
             >
               <CardBody>
                 <HStack
                   p={3}
                   my={5}
-                  display={{sm:"flex"}}
-
+                  display={{ sm: "flex" }}
                   bgColor="themeColor.pastel"
                   borderRadius={7}
                   justifyContent="space-between"
@@ -88,7 +87,7 @@ const MoodDisplays = ({ moodData, setMoodData, chartData, setChartData }) => {
                     )}
                   </Badge>
                   <IconButton
-                  aria-label="delete-button"
+                    aria-label="delete-button"
                     icon={<AiFillDelete />}
                     color="themeColor.red"
                     bgColor="transparent"
@@ -98,8 +97,8 @@ const MoodDisplays = ({ moodData, setMoodData, chartData, setChartData }) => {
                     mr="2.0rem"
                     mb=".3rem"
                     onClick={() => {
-                      onOpen();
-                      setDeleteId(each.id);
+                      onOpen()
+                      setDeleteId(each.id)
                     }}
                     _hover={{ bg: "transparent", color: "red.600" }}
                   ></IconButton>
@@ -110,10 +109,10 @@ const MoodDisplays = ({ moodData, setMoodData, chartData, setChartData }) => {
                 </Text>
               </CardBody>
             </Card>
-          );
+          )
         })}
     </VStack>
-  );
-};
+  )
+}
 
-export default MoodDisplays;
+export default MoodDisplays

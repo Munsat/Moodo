@@ -1,24 +1,23 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { vi } from "vitest";
-import MoodGraph from "./MoodGraph";
-import { queryForMoodInfo } from "../../FirestoreQueries";
-import React from "react";
-import { BrowserRouter } from "react-router-dom";
-import {Chart} from "react-google-charts";
+import { render, screen, waitFor } from "@testing-library/react"
+import { vi } from "vitest"
+import MoodGraph from "./MoodGraph"
+import { queryForMoodInfo } from "../../FirestoreQueries"
+import { BrowserRouter } from "react-router-dom"
+import { Chart } from "react-google-charts"
 
 beforeEach(() => {
-  vi.clearAllMocks();
-  vi.resetAllMocks();
-});
+  vi.clearAllMocks()
+  vi.resetAllMocks()
+})
 
 it("should render mood entries recieved from firestore", async () => {
   vi.mock("../../FirestoreQueries", () => ({
     queryForMoodInfo: vi.fn(),
-  }));
+  }))
 
   vi.mock("../../contexts/AuthProvider", () => ({
     useAuth: () => ({ user: { uid: 42 } }),
-  }));
+  }))
 
   const mockMoodEntries = [
     {
@@ -44,20 +43,20 @@ it("should render mood entries recieved from firestore", async () => {
         userId: "mock-user-id-2",
       }),
     },
-  ];
+  ]
 
-  queryForMoodInfo.mockResolvedValue(mockMoodEntries);
+  queryForMoodInfo.mockResolvedValue(mockMoodEntries)
 
-  render(<MoodGraph />);
+  render(<MoodGraph />)
   await waitFor(() => {
-    expect(screen.getByText(/mock-description-1/i)).toBeInTheDocument();
-  });
-});
+    expect(screen.getByText(/mock-description-1/i)).toBeInTheDocument()
+  })
+})
 
 it("should render the loading spinner when isLoading is true", () => {
-  render(<MoodGraph />);
-  expect(screen.getByText("...LOADING")).toBeInTheDocument();
-});
+  render(<MoodGraph />)
+  expect(screen.getByText("...LOADING")).toBeInTheDocument()
+})
 
 it("should render the popup for depression factsheet when the average mood is below 50", async () => {
   const mockMoodEntries = [
@@ -95,30 +94,30 @@ it("should render the popup for depression factsheet when the average mood is be
         userId: "mock-user-id-3",
       }),
     },
-  ];
+  ]
 
   vi.mock("react-google-charts", () => ({
-    Chart: vi.fn()
-  }));
+    Chart: vi.fn(),
+  }))
 
   vi.mock("../../FirestoreQueries", () => ({
     queryForMoodInfo: vi.fn(),
-  }));
+  }))
 
   vi.mock("../../contexts/AuthProvider", () => ({
     useAuth: () => ({ user: { uid: 42 } }),
-  }));
+  }))
 
-  queryForMoodInfo.mockResolvedValue(mockMoodEntries);
+  queryForMoodInfo.mockResolvedValue(mockMoodEntries)
   render(
     <BrowserRouter>
       <MoodGraph />
     </BrowserRouter>
-  );
-  expect(await screen.findByText("Depression Fact Sheet")).toBeInTheDocument();
-});
+  )
+  expect(await screen.findByText("Depression Fact Sheet")).toBeInTheDocument()
+})
 
-it('should call the graph component', async()=>{
+it("should call the graph component", async () => {
   const mockMoodEntries = [
     {
       data: () => ({
@@ -154,28 +153,28 @@ it('should call the graph component', async()=>{
         userId: "mock-user-id-3",
       }),
     },
-  ];
+  ]
 
   vi.mock("react-google-charts", () => ({
-    Chart: vi.fn()
-  }));
+    Chart: vi.fn(),
+  }))
 
   vi.mock("../../FirestoreQueries", () => ({
     queryForMoodInfo: vi.fn(),
-  }));
+  }))
 
   vi.mock("../../contexts/AuthProvider", () => ({
     useAuth: () => ({ user: { uid: 42 } }),
-  }));
+  }))
 
-  queryForMoodInfo.mockResolvedValue(mockMoodEntries);
+  queryForMoodInfo.mockResolvedValue(mockMoodEntries)
   render(
     <BrowserRouter>
       <MoodGraph />
     </BrowserRouter>
-  );
-  expect(await screen.findByText("Depression Fact Sheet")).toBeInTheDocument();
-  expect(Chart).toHaveBeenCalled();
-  expect.objectContaining({chartType:'ColumnChart'})
+  )
+  expect(await screen.findByText("Depression Fact Sheet")).toBeInTheDocument()
+  expect(Chart).toHaveBeenCalled()
+  expect.objectContaining({ chartType: "ColumnChart" })
   // expect(screen.getByTestId('chart-component'))
 })

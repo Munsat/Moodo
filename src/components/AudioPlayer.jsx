@@ -9,9 +9,9 @@ import {
   SliderTrack,
   Text,
   VStack,
-} from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
-import { FaPlay, FaPause } from "react-icons/fa";
+} from "@chakra-ui/react"
+import { useEffect, useRef, useState } from "react"
+import { FaPlay, FaPause } from "react-icons/fa"
 const AudioPlayer = ({
   currentAudio,
   audioIndex,
@@ -19,63 +19,63 @@ const AudioPlayer = ({
   audioUrl,
   handleSongChange,
 }) => {
-  const audioRef = useRef();
-  const progressBarRef = useRef();
-  const intervalRef = useRef();
+  const audioRef = useRef()
+  const progressBarRef = useRef()
+  const intervalRef = useRef()
 
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [duration, setDuration] = useState(0);
-  const [currentTime, setCurrentTime] = useState("");
+  const [isPlaying, setIsPlaying] = useState(true)
+  const [duration, setDuration] = useState(0)
+  const [currentTime, setCurrentTime] = useState("")
 
   useEffect(() => {
     if (audioUrl) {
       if (isPlaying) {
-        audioRef.current.play();
-        clearInterval(intervalRef.current);
+        audioRef.current.play()
+        clearInterval(intervalRef.current)
         intervalRef.current = setInterval(() => {
-          setCurrentTime(audioRef.current.currentTime);
-        }, 500);
+          setCurrentTime(audioRef.current.currentTime)
+        }, 500)
       } else {
-        audioRef.current.pause();
-        clearInterval(intervalRef.current);
+        audioRef.current.pause()
+        clearInterval(intervalRef.current)
       }
     }
-  }, [isPlaying, audioRef, currentAudio]);
+  }, [isPlaying, audioRef, currentAudio])
 
   const formatTime = (time) => {
     if (time) {
-      const min = Math.floor(time / 60);
-      const minutes = min < 10 ? "0" + min : min;
+      const min = Math.floor(time / 60)
+      const minutes = min < 10 ? "0" + min : min
 
-      const sec = Math.floor(time) % 60;
-      const seconds = sec < 10 ? "0" + sec : sec;
-      return `${minutes}:${seconds}`;
+      const sec = Math.floor(time) % 60
+      const seconds = sec < 10 ? "0" + sec : sec
+      return `${minutes}:${seconds}`
     }
-    return `00:00`;
-  };
+    return `00:00`
+  }
 
   const handleMetadata = (event) => {
-    setDuration(event.target.duration);
-    audioRef.current.currentTime = 0;
+    setDuration(event.target.duration)
+    audioRef.current.currentTime = 0
 
-    setCurrentTime(0);
-  };
+    setCurrentTime(0)
+  }
 
   const handleProgressBarChange = (v) => {
-    audioRef.current.currentTime = v;
-  };
+    audioRef.current.currentTime = v
+  }
 
   const handleEnd = () => {
-    clearInterval(intervalRef.current);
+    clearInterval(intervalRef.current)
     if (audioIndex >= allAudio.length - 1) {
-      handleSongChange(null, 0);
+      handleSongChange(null, 0)
     } else {
-      handleSongChange(allAudio[audioIndex + 1], audioIndex + 1);
+      handleSongChange(allAudio[audioIndex + 1], audioIndex + 1)
     }
 
-    audioRef.current.currentTime = 0;
-    setCurrentTime(0);
-  };
+    audioRef.current.currentTime = 0
+    setCurrentTime(0)
+  }
   return (
     <VStack my={7}>
       <Image
@@ -122,7 +122,7 @@ const AudioPlayer = ({
         <Text>{formatTime(duration)}</Text>
       </HStack>
     </VStack>
-  );
-};
+  )
+}
 
-export default AudioPlayer;
+export default AudioPlayer

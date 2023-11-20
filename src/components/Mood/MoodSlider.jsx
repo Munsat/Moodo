@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { Link as ReactLink } from "react-router-dom";
+import { useRef, useState } from "react"
+import { Link as ReactLink } from "react-router-dom"
 import {
   Box,
   Button,
@@ -25,57 +25,50 @@ import {
   VStack,
   useDisclosure,
   useToast,
-} from "@chakra-ui/react";
-import { VscSmiley } from "react-icons/vsc";
+} from "@chakra-ui/react"
+import { VscSmiley } from "react-icons/vsc"
 
-
-import { useAuth } from "../../contexts/AuthProvider";
-import { addMoodInfoToFirestore } from "../../FirestoreQueries";
-import moodSliderStyles from './MoodSlider.module.css'
-
+import { useAuth } from "../../contexts/AuthProvider"
+import { addMoodInfoToFirestore } from "../../FirestoreQueries"
+import moodSliderStyles from "./MoodSlider.module.css"
 
 const MoodSlider = () => {
-  const [feel, setFeel] = useState("");
-  const [input, setInput] = useState("");
-  const [moodDetail, setMoodDetail] = useState(null);
-  const [error, setError] = useState(null);
+  const [feel, setFeel] = useState("")
+  const [input, setInput] = useState("")
+  const [error, setError] = useState(null)
 
-  const { user } = useAuth();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
+  const { user } = useAuth()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const toast = useToast()
 
-  const initialRef = useRef(null);
-  const finalRef = useRef(null);
+  const initialRef = useRef(null)
+  const finalRef = useRef(null)
 
   const handleMoodBarChange = (e) => {
     if (e === 0) {
-      setFeel(["depressed", 0]);
+      setFeel(["depressed", 0])
     } else if (e === 25) {
-      setFeel(["sad", 25]);
+      setFeel(["sad", 25])
     } else if (e === 50) {
-      setFeel(["alright", 50]);
+      setFeel(["alright", 50])
     } else if (e === 75) {
-      setFeel(["happy", 75]);
+      setFeel(["happy", 75])
     } else if (e === 100) {
-      setFeel(["amazing", 100]);
+      setFeel(["amazing", 100])
     }
-  };
+  }
 
   const handleMoodBarSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (feel && input.length > 0) {
       const moodBody = {
         feel: feel,
         date: new Date(),
         description: input.trim(),
         userId: user.uid,
-      };
+      }
       try {
-        const moodRes = await addMoodInfoToFirestore(moodBody);
-        setMoodDetail({
-          id: moodRes.id,
-          ...moodBody,
-        });
+        await addMoodInfoToFirestore(moodBody)
 
         toast({
           title: "Mood added!",
@@ -84,28 +77,28 @@ const MoodSlider = () => {
           position: "bottom-right",
           duration: 9000,
           isClosable: true,
-        });
-        setInput("");
-        onClose();
+        })
+        setInput("")
+        onClose()
       } catch (err) {
-        console.error(err);
+        console.error(err)
       }
     } else {
-      setError("Oh no! You can't leave it blank.");
+      setError("Oh no! You can't leave it blank.")
     }
-  };
+  }
   return (
     <VStack
-    m={20}
-    bg="themeColor.pastel"
-    p="5rem"
-    // minW='20rem'
-    maxW='50rem'
-    w={{base:'100%', sm:'80%'}}
-    textAlign='center'
-    borderRadius={40}
-    zIndex={100}
-    opacity={.9}
+      m={20}
+      bg="themeColor.pastel"
+      p="5rem"
+      // minW='20rem'
+      maxW="50rem"
+      w={{ base: "100%", sm: "80%" }}
+      textAlign="center"
+      borderRadius={40}
+      zIndex={100}
+      opacity={0.9}
     >
       <Modal
         closeOnOverlayClick={false}
@@ -116,7 +109,7 @@ const MoodSlider = () => {
       >
         <ModalOverlay />
         <ModalContent bgColor="themeColor.beige">
-          <ModalHeader>What's on your mind?</ModalHeader>
+          <ModalHeader>What&apos;s on your mind?</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
@@ -140,7 +133,7 @@ const MoodSlider = () => {
 
           <ModalFooter>
             <Button
-            aria-label="mood-confirm-btn"
+              aria-label="mood-confirm-btn"
               bgColor="themeColor.yellow"
               colorScheme="yellow"
               mr={3}
@@ -155,7 +148,14 @@ const MoodSlider = () => {
       <Heading id="mood-tracker">Mood Tracker</Heading>
       <Text fontSize="2xl">How are you doing today?</Text>
 
-      {<Image mt={2} boxSize="110px" src={`/${feel[0] || 'alright'}.png`} alt="emoticon" />}
+      {
+        <Image
+          mt={2}
+          boxSize="110px"
+          src={`/${feel[0] || "alright"}.png`}
+          alt="emoticon"
+        />
+      }
       <Text aria-label="current-mood" mt={3}>
         I am {feel[0] || "..."}
       </Text>
@@ -202,7 +202,7 @@ const MoodSlider = () => {
         bgColor="themeColor.yellow"
         colorScheme="yellow"
         aria-labelledby="mood-tracker"
-        data-testid='mood-submit'
+        data-testid="mood-submit"
       >
         Confirm
       </Button>
@@ -214,12 +214,12 @@ const MoodSlider = () => {
         to={"/moodgraph"}
         aria-label="click to checkout your mood graph"
         ref={finalRef}
-        className= {moodSliderStyles.graphLink}
+        className={moodSliderStyles.graphLink}
       >
         Have a look at your Mood Graph
       </Link>
     </VStack>
-  );
-};
+  )
+}
 
-export default MoodSlider;
+export default MoodSlider
