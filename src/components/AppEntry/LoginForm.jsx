@@ -1,4 +1,6 @@
 import { useState } from "react"
+import { Link as ReactLink } from "react-router-dom"
+
 import {
   FormControl,
   FormLabel,
@@ -10,19 +12,23 @@ import {
   Link,
 } from "@chakra-ui/react"
 import { useAuth } from "../../contexts/AuthProvider"
-import { Link as ReactLink } from "react-router-dom"
 
+// LoginForm component for user authentication
 const LoginForm = () => {
+  // Auth context to handle user authentication
   const { login, loginWithGoogle } = useAuth()
   const [error, setError] = useState(null)
 
+  // Event handler for form submission
   const handleLoginSubmit = async (event) => {
     event.preventDefault()
     const formData = new FormData(event.target)
     const body = Object.fromEntries(formData)
     try {
+      // Attempt to login with email and password
       await login(body["email"], body["password"])
     } catch (err) {
+      // Handle different authentication errors
       const errorCode = err.code
       const errorMessage = err.message
       if (
@@ -40,11 +46,12 @@ const LoginForm = () => {
       }
     }
   }
-
+  // Event handler for signing in with Google
   const handleSignInWithGoogle = async () => {
     try {
       await loginWithGoogle()
     } catch (err) {
+      // Handle errors during Google sign-in
       const errorCode = err.code
       const errorMessage = err.message
       console.error(errorCode, errorMessage)
@@ -62,8 +69,10 @@ const LoginForm = () => {
       borderRadius={30}
       centerContent
     >
+      {/* Display error message if authentication fails */}
       {error && <Text color="red">{error}</Text>}
 
+      {/* Login form */}
       <form onSubmit={handleLoginSubmit} aria-label="form">
         <FormControl isRequired>
           <FormLabel htmlFor="email">Email</FormLabel>
@@ -110,6 +119,8 @@ const LoginForm = () => {
           </Link>
         </Text>
       </form>
+
+      {/* Demo account information */}
       <Text mt={3} as="sub">
         Demo Account:
       </Text>

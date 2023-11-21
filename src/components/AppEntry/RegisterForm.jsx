@@ -14,21 +14,28 @@ import { Link as ReactLink } from "react-router-dom"
 import { useAuth } from "../../contexts/AuthProvider"
 
 const RegisterForm = () => {
+  // Access the register function from the AuthProvider
   const { register } = useAuth()
+  // State to manage error messages during registration
   const [error, setError] = useState(null)
 
+  // Handle registration form submission
   const handleRegisterSubmit = async (event) => {
     event.preventDefault()
+    // Extract form data
     const formData = new FormData(event.target)
     const body = Object.fromEntries(formData)
     try {
+      // Check if the entered passwords match
       if (body["password"] === body["password1"]) {
+        // Call the register function from the AuthProvider
         await register(body)
       } else {
+        // Set an error message if passwords don't match
         setError("Sorry passwords don't match")
       }
     } catch (err) {
-      // Show error message
+      // Handle registration errors
       const errorCode = err.code
       const errorMessage = err.message
       if (errorCode === "auth/weak-password") {
@@ -51,7 +58,9 @@ const RegisterForm = () => {
       borderRadius={30}
       centerContent
     >
+      {/* Display error message if there is any */}
       {error && <Text color="red">{error}</Text>}
+      {/* Registration form */}
       <form onSubmit={handleRegisterSubmit} aria-label="form">
         <FormControl isRequired>
           <FormLabel htmlFor="name">Name: </FormLabel>
@@ -101,6 +110,7 @@ const RegisterForm = () => {
           Register
         </Button>
       </form>
+      {/* Link to sign in if user already has an account */}
       <Text mt={2}>
         Already have an account?
         <br />
