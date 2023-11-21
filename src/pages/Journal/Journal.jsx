@@ -1,34 +1,44 @@
 import { Container, Heading, Spinner, VStack } from "@chakra-ui/react"
-import AddEntry from "../../components/JournalEntry/AddEntry"
 import { useEffect, useState } from "react"
+import { format } from "date-fns"
+
 import { queryJournalEntries } from "../../FirestoreQueries"
+
+import AddEntry from "../../components/JournalEntry/AddEntry"
 import AllEntries from "../../components/JournalEntry/AllEntries"
 import { useAuth } from "../../contexts/AuthProvider"
-import { format } from "date-fns"
 import journalStyles from "./Journal.module.css"
 
 const Journal = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [entryData, setEntryData] = useState(null)
   const [groupedData, setGroupedData] = useState(null)
+
+  // Accessing user information from authentication context
   const { user } = useAuth()
 
+  // useEffect to fetch and set journal entry data when the component mounts
   useEffect(() => {
     const getQuery = async () => {
       const queryArr = []
       const groupedEntries = {}
 
       try {
+        // Fetching all journal entries from Firestore for the current user
         const queryRes = await queryJournalEntries(user.uid)
+        // Mapping query results to an array with added IDs
         queryRes.forEach((snap) => {
           const data = { id: snap.id, ...snap.data() }
           queryArr.push(data)
+
+          // Grouping entries by date
           const date = format(data.created_on, "yyyy-MM-dd")
           if (!groupedEntries[date]) {
             groupedEntries[date] = []
           }
           groupedEntries[date].push(data)
         })
+        // Setting the raw entry data and grouped entry data states
         setEntryData(queryArr)
         setGroupedData(groupedEntries)
         setIsLoading(false)
@@ -36,9 +46,12 @@ const Journal = () => {
         console.error(err)
       }
     }
+    // Initiating the data fetching process
     setIsLoading(true)
     getQuery()
   }, [])
+
+  // If still loading, render a Spinner component
   if (isLoading)
     return (
       <Container centerContent>
@@ -55,6 +68,7 @@ const Journal = () => {
       </Container>
     )
 
+  // Once loading is complete, render the main content
   return (
     <VStack
       bg="themeColor.pastel"

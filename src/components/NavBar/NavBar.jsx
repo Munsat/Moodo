@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { useAuth } from "../../contexts/AuthProvider"
 import navStyles from "./NavBar.module.css"
 
+// NavBar component for navigation
 const NavBar = () => {
   const { user, isLoadingUser } = useAuth()
   return (
@@ -10,6 +11,7 @@ const NavBar = () => {
         <a className="navbar-brand" href="/">
           Moodo
         </a>
+        {/* Navbar toggle button for smaller screens */}
         <button
           className={`navbar-toggler ${navStyles.navBtn}`}
           type="button"
@@ -21,6 +23,7 @@ const NavBar = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+        {/* Navbar items based on user authentication status */}
         <div
           className="collapse navbar-collapse flex-grow-0"
           id="navbarSupportedContent"

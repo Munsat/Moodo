@@ -12,6 +12,8 @@ import {
 } from "@chakra-ui/react"
 import { useEffect, useRef, useState } from "react"
 import { FaPlay, FaPause } from "react-icons/fa"
+
+// AudioPlayer component for playing audio tracks
 const AudioPlayer = ({
   currentAudio,
   audioIndex,
@@ -19,14 +21,17 @@ const AudioPlayer = ({
   audioUrl,
   handleSongChange,
 }) => {
+  // Refs for controlling audio and progress bar
   const audioRef = useRef()
   const progressBarRef = useRef()
   const intervalRef = useRef()
 
+  // State for controlling play/pause, duration, and current time
   const [isPlaying, setIsPlaying] = useState(true)
   const [duration, setDuration] = useState(0)
   const [currentTime, setCurrentTime] = useState("")
 
+  // Effect for handling play/pause and updating current time
   useEffect(() => {
     if (audioUrl) {
       if (isPlaying) {
@@ -42,6 +47,7 @@ const AudioPlayer = ({
     }
   }, [isPlaying, audioRef, currentAudio])
 
+  // Function to format time in minutes and seconds
   const formatTime = (time) => {
     if (time) {
       const min = Math.floor(time / 60)
@@ -54,17 +60,18 @@ const AudioPlayer = ({
     return `00:00`
   }
 
+  // Event handler for metadata (duration) of the audio track
   const handleMetadata = (event) => {
     setDuration(event.target.duration)
     audioRef.current.currentTime = 0
 
     setCurrentTime(0)
   }
-
+  // Event handler for changing the progress bar value
   const handleProgressBarChange = (v) => {
     audioRef.current.currentTime = v
   }
-
+  // Event handler for the end of the audio track
   const handleEnd = () => {
     clearInterval(intervalRef.current)
     if (audioIndex >= allAudio.length - 1) {
@@ -78,6 +85,7 @@ const AudioPlayer = ({
   }
   return (
     <VStack my={7}>
+      {/* Display audio track image */}
       <Image
         objectFit="cover"
         maxW={{ base: "90%", sm: "90%", md: "70%" }}
@@ -105,6 +113,7 @@ const AudioPlayer = ({
           onEnded={handleEnd}
         ></audio>
         <Text>{formatTime(currentTime)}</Text>
+        {/* Progress bar */}
         <Slider
           aria-label="slider-ex-1"
           min={0}

@@ -1,8 +1,4 @@
-import { getDownloadURL, ref } from "firebase/storage"
 import { useEffect, useState } from "react"
-import { queryForAudioInfo } from "../../FirestoreQueries"
-import { storage } from "../../firebaseConfig"
-
 import {
   Card,
   VStack,
@@ -18,6 +14,9 @@ import {
   Spinner,
 } from "@chakra-ui/react"
 import { BsMusicNoteBeamed } from "react-icons/bs"
+import { getDownloadURL, ref } from "firebase/storage"
+import { storage } from "../../firebaseConfig"
+import { queryForAudioInfo } from "../../FirestoreQueries"
 import AudioPlayer from "../../components/AudioPlayer/AudioPlayer"
 
 const Meditation = () => {
@@ -27,28 +26,37 @@ const Meditation = () => {
   const [audioUrl, setAudioUrl] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
+  // useEffect to fetch and set audio data when the component mounts
   useEffect(() => {
     const audioArr = []
+    // Function to perform the Firestore query and update state
     const getAllAudio = async () => {
       try {
+        // Fetching all audio information from Firestore
         const response = await queryForAudioInfo()
+        // Mapping query results to an array
         response.forEach((snap) => {
           audioArr.push(snap.data())
         })
+        // Setting the state with the fetched audio data
         setAllAudio(audioArr)
       } catch (err) {
         console.error(err)
       } finally {
+        // Updating loading status after data fetching is complete
         setIsLoading(false)
       }
     }
+    // Initiating the data fetching process
     setIsLoading(true)
     getAllAudio()
   }, [])
 
+  // Function to handle loading the audio file for playback
   const handleSong = async (audio) => {
     const storageref = ref(storage, audio.url)
     try {
+      // Fetching the download URL of the audio file from Firebase Storage
       const url = await getDownloadURL(storageref)
       setAudioUrl(url)
     } catch (err) {
@@ -56,16 +64,21 @@ const Meditation = () => {
     }
   }
 
+  // Function to handle the click event on a specific audio card
   const handleClick = async (audio, index) => {
+    // Loading the audio file and updating the active audio state
     await handleSong(audio)
     setActiveAudio(audio)
     setAudioIndex(index)
   }
 
+  // Function to handle the change of the currently playing audio
   const handleSongChange = (audio, index) => {
     setActiveAudio(audio)
     setAudioIndex(index)
   }
+
+  // If still loading, render a Spinner component
   if (isLoading)
     return (
       <Container centerContent>
@@ -81,6 +94,7 @@ const Meditation = () => {
         </Heading>
       </Container>
     )
+  // Once loading is complete, render the main content
   return (
     <Flex
       mt="5rem"

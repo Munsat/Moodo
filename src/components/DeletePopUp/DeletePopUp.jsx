@@ -9,7 +9,9 @@ import {
 } from "@chakra-ui/react"
 import { useRef } from "react"
 
+// DeletePopUp component for confirming deletion
 const DeletePopUp = ({ deleteId, isOpen, onClose, handleDelete }) => {
+  // Using a ref to access the cancel button
   const cancelRef = useRef(null)
 
   return (

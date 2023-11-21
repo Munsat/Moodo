@@ -18,6 +18,7 @@ import Comment from "../Comment/Comment"
 import AddComment from "../Comment/AddComment"
 import DeletePopUp from "../DeletePopUp/DeletePopUp"
 
+// Component for displaying detailed information about a post
 const PostDetails = ({
   finalRef,
   isOpen,
@@ -29,6 +30,7 @@ const PostDetails = ({
   comments,
   setComments,
 }) => {
+  // State to manage the visibility of the delete confirmation popup
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false)
   return (
     <Modal
@@ -70,6 +72,7 @@ const PostDetails = ({
 
         <ModalFooter>
           <ButtonGroup>
+            {/* Conditional rendering of Like/Unlike button based on user's like status */}
             {post.likes.includes(user.uid) ? (
               <Button colorScheme="orange" onClick={() => handleLike(post)}>
                 Unlike
@@ -84,7 +87,7 @@ const PostDetails = ({
                 Like
               </Button>
             )}
-
+            {/* Delete button for post creators */}
             {user.uid === post.userId && (
               <Button
                 colorScheme="red"

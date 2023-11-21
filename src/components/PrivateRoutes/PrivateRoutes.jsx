@@ -1,9 +1,14 @@
 import { Navigate, Outlet } from "react-router-dom"
-import { useAuth } from "../../contexts/AuthProvider"
 import { Container, Heading, Spinner } from "@chakra-ui/react"
 
+import { useAuth } from "../../contexts/AuthProvider"
+
+// Component for handling private routes based on user authentication status
 const PrivateRoutes = (props) => {
+  // Accessing user and loading status from the authentication context
   const { user, isLoadingUser } = useAuth()
+
+  // If user data is still loading, display a loading spinner
   if (isLoadingUser)
     return (
       <Container centerContent>
@@ -19,6 +24,7 @@ const PrivateRoutes = (props) => {
         </Heading>
       </Container>
     )
+  // If user is authenticated, render the nested routes; otherwise, redirect to the specified route
   return user ? <Outlet /> : <Navigate to={props.redirectTo} replace />
 }
 

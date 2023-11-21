@@ -36,7 +36,6 @@ const Comment = ({ comment, setComments, comments }) => {
 
   return (
     <VStack
-      // display={{ sm: "flex" }}
       px={3}
       py={5}
       my={2}

@@ -1,8 +1,11 @@
 import { IconButton, Text, VStack } from "@chakra-ui/react"
 import { motion, useAnimation } from "framer-motion"
-import circleStyles from "./Breathe.module.css"
 import { useRef, useState } from "react"
 import { AiOutlinePlayCircle, AiOutlinePauseCircle } from "react-icons/ai"
+
+import circleStyles from "./Breathe.module.css"
+
+// Breathe component for breathing animation
 const Breathe = () => {
   const [showInhale, setShowInhale] = useState(null)
   const [isAnimating, setIsAnimating] = useState(false)
@@ -10,6 +13,7 @@ const Breathe = () => {
   const controlsText = useAnimation()
   const controlsCircle = useAnimation()
 
+  // Function to start breathing animations
   const startAnimations = () => {
     setShowInhale(true)
     setIsAnimating(true)
@@ -41,6 +45,7 @@ const Breathe = () => {
     }, 4920)
   }
 
+  // Function to stop breathing animations
   const stopAnimations = () => {
     setShowInhale(true)
     setIsAnimating(false)
@@ -57,6 +62,7 @@ const Breathe = () => {
       alignItems="center"
       minH="6rem"
     >
+      {/* Render multiple animated circles for breathing effect */}
       {[1, 2, 3, 4].map((item) => (
         <motion.div
           key={item}
@@ -65,6 +71,7 @@ const Breathe = () => {
           custom={item}
         ></motion.div>
       ))}
+      {/* Render animated text for inhale/exhale indication */}
       <motion.div animate={controlsText} position="absolute">
         {showInhale !== null ? (
           <Text className={circleStyles.text} color="orange.800" fontSize="lg">
@@ -72,6 +79,7 @@ const Breathe = () => {
           </Text>
         ) : null}
       </motion.div>
+      {/* IconButton for controlling breathing animations */}
       <IconButton
         fontSize="5rem"
         bgColor="transparent"

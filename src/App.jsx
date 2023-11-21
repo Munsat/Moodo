@@ -27,7 +27,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
-        <Route path="/*" element={<NotFound />} />
+        <Route path="*" element={<NotFound />} />
 
         <Route element={<PrivateRoutes redirectTo="/login" />}>
           <Route path="/" element={<Home />} />

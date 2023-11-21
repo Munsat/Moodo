@@ -4,7 +4,6 @@ import Entry from "./Entry"
 import { format } from "date-fns"
 
 const AllEntries = ({ groupedData, setGroupedData }) => {
-  console.log(groupedData)
   return (
     <VStack w="100%" spacing={6} align="stretch" mt="3rem">
       {groupedData &&

@@ -15,7 +15,7 @@ import {
 } from "firebase/firestore"
 
 //USER COLLECTION
-//Creates a user in Firestore
+//Creates a user document in Firestore
 export const addUserInfoToFirestore = async (userId, userInfo) => {
   try {
     const userDoc = doc(db, `users/${userId}`)
@@ -26,7 +26,7 @@ export const addUserInfoToFirestore = async (userId, userInfo) => {
 }
 
 //MOODS COLLECTION
-//Adds a mood entry in Firestore
+//Adds a mood entry document in Firestore
 export const addMoodInfoToFirestore = async (moodInfo) => {
   try {
     const moodCollection = collection(db, `moods`)
@@ -66,7 +66,7 @@ export const deleteMood = async (moodId) => {
 }
 
 //TIPS COLLECTION
-//Adds a mood tip into Firestore
+//Adds a mood tip document into Firestore
 export const addTipsInfoToFirestore = async (tipsInfo) => {
   try {
     const tipsCollection = collection(db, `tips`)
@@ -148,7 +148,7 @@ export const updateJournalEntry = async (entryId, fieldsToUpdate) => {
 }
 
 //POSTS COLLECTION
-//Adds a post into Firestore
+//Adds a post document into Firestore
 export const createPost = async (postInfo) => {
   try {
     const postsCollection = collection(db, `posts`)

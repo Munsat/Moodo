@@ -6,10 +6,13 @@ import AddUserInput from "../AddUserInput/AddUserInput"
 //Adds a post to the discussion board
 const AddPost = ({ posts, setPosts }) => {
   const toast = useToast()
+  // Accessing user information from the authentication context
   const { user } = useAuth()
   const placeholder = "What's on your mind?"
 
+  // Function to handle form submission and add a new post
   const onSubmit = async (input) => {
+    // Building the post body with user information and input text
     const body = {
       userId: user.uid,
       username: user.displayName,
@@ -19,6 +22,7 @@ const AddPost = ({ posts, setPosts }) => {
       likes: [],
     }
     try {
+      // Creating the post in Firestore and updating the local state
       const postRes = await createPost(body)
       const data = {
         id: postRes.id,
@@ -26,6 +30,7 @@ const AddPost = ({ posts, setPosts }) => {
       }
       setPosts([data, ...posts])
 
+      // Displaying a success toast notification
       toast({
         title: "You just made a new post!",
         description: "Your post has been added to the discussion board.",
@@ -35,6 +40,7 @@ const AddPost = ({ posts, setPosts }) => {
         isClosable: true,
       })
     } catch (err) {
+      // Handling errors during the post creation process
       console.error(err)
     }
   }

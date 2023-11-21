@@ -15,8 +15,9 @@ import {
 } from "@chakra-ui/react"
 import { AiFillHeart } from "react-icons/ai"
 import { FaComment } from "react-icons/fa"
-
+import { useEffect, useRef, useState } from "react"
 import { format, formatDistance } from "date-fns"
+
 import { useAuth } from "../../contexts/AuthProvider"
 import {
   deletePost,
@@ -24,16 +25,20 @@ import {
   updatePostLike,
 } from "../../FirestoreQueries"
 import PostDetails from "./PostDetails"
-import { useEffect, useRef, useState } from "react"
 
+// Component for rendering a single post
 const Post = ({ post, setPosts, posts }) => {
   const finalRef = useRef(null)
   const toast = useToast()
 
+  // State for managing the visibility of post details modal
   const [isPostDetailsOpen, setIsPostDetailsOpen] = useState(false)
+  // User information from the authentication context
   const { user } = useAuth()
+  // State for storing comments related to the post
   const [comments, setComments] = useState([])
 
+  // Effect hook to fetch comments related to the post
   useEffect(() => {
     const getQuery = async () => {
       const queryArr = []
@@ -52,7 +57,7 @@ const Post = ({ post, setPosts, posts }) => {
     getQuery()
   }, [])
 
-  //Updates Like/Unlike on a post
+  // Function to handle liking/unliking a post
   const handleLike = async (postToLike) => {
     try {
       await updatePostLike(postToLike, user.uid)
@@ -81,11 +86,12 @@ const Post = ({ post, setPosts, posts }) => {
     }
   }
 
-  //Deletes a post
+  // Function to handle post deletion
   const handlePostDelete = async (postId) => {
     try {
       await deletePost(postId)
       setPosts(posts.filter((post) => post.id !== postId))
+      // Displaying a notification for successful post deletion
       toast({
         title: "Post Deleted!",
         description: "Your post has been deleted from the discussion board.",
@@ -114,6 +120,7 @@ const Post = ({ post, setPosts, posts }) => {
       _hover={{ cursor: "pointer", backgroundColor: "themeColor.darkPastel" }}
       alignSelf="start"
     >
+      {/* PostDetails component for rendering detailed post view */}
       <PostDetails
         finalRef={finalRef}
         isOpen={isPostDetailsOpen}
@@ -125,6 +132,7 @@ const Post = ({ post, setPosts, posts }) => {
         comments={comments}
         setComments={setComments}
       />
+      {/* CardBody for post content */}
       <CardBody
         w="100%"
         px="3rem"
@@ -132,6 +140,7 @@ const Post = ({ post, setPosts, posts }) => {
         pb="0"
         onClick={() => setIsPostDetailsOpen(true)}
       >
+        {/* Header section with user information and post creation time */}
         <HStack display={{ xl: "flex" }} maxW="100%">
           <Avatar name={post.username} bg="orange.300" size="md" />
           <Heading fontSize="lg">{post.username}</Heading>
@@ -139,6 +148,7 @@ const Post = ({ post, setPosts, posts }) => {
             {formatDistance(Date.now(), post.created_on)} ago
           </Badge>
         </HStack>
+        {/* Post text with ellipsis overflow for long content */}
         <Text
           mt={5}
           fontSize="md"

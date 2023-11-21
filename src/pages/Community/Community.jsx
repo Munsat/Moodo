@@ -6,28 +6,36 @@ import AddPost from "../../components/Post/AddPost"
 import AllPosts from "../../components/Post/AllPosts"
 import communityStyles from "./Community.module.css"
 const Community = () => {
+  // State to manage loading status
   const [isLoading, setIsLoading] = useState(false)
+  // State to store posts data
   const [posts, setPosts] = useState(null)
 
+  // useEffect to fetch and set posts data when the component mounts
   useEffect(() => {
     const getQuery = async () => {
       const queryArr = []
 
       try {
+        // Fetching all posts from Firestore
         const queryRes = await queryAllPosts()
         queryRes.forEach((snap) => {
+          // Mapping query results to an array with added IDs
           const data = { id: snap.id, ...snap.data() }
           queryArr.push(data)
         })
+        // Setting the posts state and updating loading status
         setPosts(queryArr)
         setIsLoading(false)
       } catch (err) {
         console.error(err)
       }
     }
+    // Initiating the data fetching process
     setIsLoading(true)
     getQuery()
   }, [])
+  // If still loading, render a Spinner component
   if (isLoading)
     return (
       <Container centerContent>
@@ -43,7 +51,7 @@ const Community = () => {
         </Heading>
       </Container>
     )
-
+  // Once loading is complete, render the main content
   return (
     <Container
       centerContent
